@@ -106,7 +106,6 @@ Reference - https://searchnetworking.techtarget.com/definition/fiber-to-the-home
 Fiber to the Home (FTTH) is the use of optical fibers from the Central Office to residences to provide Internet access, thereby replacing existing copper infrastructure such as telephone wires and coaxial cable. FTTH dramatically increases Internet speeds compared to previously discussed network access methods.
 Transmission rate: 250Mbps - 1000Mbps. This is about 20-100 times faster than DSL and Cable Internet access methods.
 
-<img src=":/39efb31342ab43f093157f6448c2014c" alt="b78ad3d2fa8db4c29f51ebf366e79cc9.png" width="730" height="351" class="jop-noMdConv">
 
 > ### DSL vs Cable vs Fiber
 > 
