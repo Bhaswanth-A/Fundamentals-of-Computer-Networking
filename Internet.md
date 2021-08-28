@@ -106,7 +106,6 @@ Reference - https://searchnetworking.techtarget.com/definition/fiber-to-the-home
 Fiber to the Home (FTTH) is the use of optical fibers from the Central Office to residences to provide Internet access, thereby replacing existing copper infrastructure such as telephone wires and coaxial cable. FTTH dramatically increases Internet speeds compared to previously discussed network access methods.
 Transmission rate: 250Mbps - 1000Mbps. This is about 20-100 times faster than DSL and Cable Internet access methods.
 
-
 > ### DSL vs Cable vs Fiber
 > 
 > https://broadbandnow.com/guides/dsl-vs-cable-vs-fiber
@@ -151,12 +150,109 @@ Hotspots are created using a Wi-Fi router or an access point, which is connected
 > 2.  More latency: Ethernet uses CSMA/CD algorithm to prevent collisions by sending packets of data immediately after the channel is free. Wi-Fi, on the other hand, introduces a small delay once the channel becomes clear. Since Wi-Fi routers cannot detect collisions mid-air, this delay reduces the risk of collisions, but at the same time, adds more latency.
 > 3.  Old communication protocol: Wi-Fi is half-duplex, which means that the Wi-Fi router's antenna can only send or receive packets of data at a time, but cannot do both simultaneously. Ethernet on the other hand, is full-duplex, i.e., it can send and receive data simultaneously, as an ethernet cable contains two wires - one for receiving data and the other to transmit data.
 
-## Structure of the Network (Network of Networks)
+## Structure of the Network
 
-## Protocols
+The network of networks that forms the Internet has evolved over the years into a complex structure. As we've seen before, end systems can connect to the local or access ISPs by different modes (discussed above). The structure of the network majorly comprises of the following:
 
-## Traceroute
+1.  **Access ISP:** The end goal is to interconnect all these access ISPs so that every end system over the Internet can exchange data packets with each other. One way to achieve this is for aceess ISPs to directly connect with each other. Such a mesh design is too costly for the access ISPs, as it would require each access ISP to have a separate communication link to each of the thousands of other access ISPs all over the world.
+    
+2.  **Global ISP:** This is where *global transit ISPs* would come into picture. Global ISPs span over the globe and have at least one router near each of the thousands of access ISPs. All the access ISPs connect to one (or more) of the global ISPs, rather than connecting with each other directly. Since building such a massive network is extremely expensive for a gloabl ISP, it would charge the access ISPs connecting to it depending on the amount of traffic exchanged. These global ISPs would in turn have to connect with each other so that access ISPs connected to different global ISPs can communicate with each other.
+    
+3.  **Regional ISP:** It is not possible for global ISPs to connect with each and every access ISP, unless they have a very impressive global coverage. This is where a Regional ISP would come into picture. The access ISPs in a region connect to the Regional ISP, which in turn connects to the global ISP.
+    
+4.  **Multi-homing and IXPs:** In addition to just one-to-one connectivity, access ISPs can multi-home with two or more regional ISPs, and regional ISPs can multi-home with two or more global ISPs. customer ISPs pay their provider ISPs to obtain global Internet interconnectivity. To reduce these costs that a customer ISP pays to the provider ISP, a pair of nearby ISPs at the same level of the hierarchy can peer - they can directly connect their networks together so that all the traffic between them passes over the direct connection rather than through upstream intermediaries. In such a case, neither ISP pays the other. Along these same lines, a third-party company can create an Internet Exchange Point (IXP), which is a meeting point where multiple ISPs can peer together.
+    
+5.  **Content providers:** In recent years, major content providers such as Google have created their own private networks. These private networks carry traffic only to/from their data centers. They peer with the access ISPs by connecting with them directly or at the IXPs. Such kind of infrastructure gives a greater control on how its services are delivered to the end users.
 
-> ## Additional Info
-> 
-> https://youtu.be/kx3qwqtZvs4
+## Addressing
+
+### IP Addressing
+
+In order for end systems connected over the Internet to exchange data with each other, it is important to assign an address to each so that they can find and locate the end system requesting for data. Such an address is called the IP (Internet Protocol) Address.
+
+IP Address is of two types:
+
+1.  IPv4
+2.  IPv6
+
+#### IPv4
+
+[Reference](https://en.wikipedia.org/wiki/IPv4)
+
+Internet Protocol version 4 (IPv4) is the fourth version of the Internet Protocol (IP).
+It has the format $N.N.N.N$ ($32$ bits)
+where $N$ has a range from $0$ to $255$ \- 8 bits
+
+Since the IP Address of a device needs to be unique, only a total of $2$<sup>$32$</sup> devices can be connected over the Internet.
+
+#### IPv6
+
+[Reference](https://en.wikipedia.org/wiki/IPv6_address#:~:text=IPv6%20addresses%20are%20classified%20by,address%20to%20that%20specific%20interface.)
+
+Internet Protocol Version 6 address (IPv6) is the successor to IPv4. It was developed to deal with the problem of IPv4 exhaustion, so as to have a vastly enlarged address space.
+It has the format $N:N:N:N:N:N:N:N$ ($128$ bits)
+where $N$ is a hexadecimal number of the format $XXXX$
+
+A total of $2$<sup>$128$</sup> devices can be connected over the Internet.
+
+
+IP Addresses can be classified into two types:
+
+1.  Dynamic IP Address: The IP Address of the device changes every time it connects to the Internet. This IP Address is provided by the ISP from a range of available IP Addresses.
+2.  Static IP Address: The IP Address of the device is fixed.
+
+> https://www.youtube.com/watch?v=aor29pGhlFE
+
+### MAC Addressing
+
+MAC Address, which stands for Media Access Control, is a unique identifier that is assigned to a Network Interface Card (NIC). They are physical addresses, unique and cannot be changed. 
+
+The address is 48 bits long (6 bytes). The first 24 bits (or 3 bytes) is called the Organizational Unique Identifier (OUI) which identifies the manufacturer. IEEE Registration Authority Committee assigns these MAC prefixes to its registered vendors. The last 24 bits is a unique value that is assigned by the manufacturer. 
+
+#### Why do we need MAC Address?
+Let's say we have a lot of devices connected to a router/switch. These devices, which form a local network, are connected to the Internet. When one device requests for some information, the data is fetched and brought to the router/switch. The router/switch then navigates this information to the correct device using its MAC Address.
+
+#### What is the difference between MAC Address and IP Address?
+IP addresses are used to find and locate the end system requesting for data, and to get the data to its destination. You can think of IP Address as the address to your home - data is brought to your router.
+
+MAC Addresses, on the other hand, is more like your name. It is unique for every device and helps your router navigate data correctly when many devices are connected to it in the local network, preventing data requested by on device on reaching another device connected to the same router.
+
+As your address will change if you travel from one place to another, the IP Address of your device will also change when you connect to a different network. However your name will not change when you travel to a different location, and in a similar manner, your MAC Address also will not change.
+
+### Port Addressing
+
+Let's say we want to access a particular web service. To do so, we type in the URL of the website that we want to visit. The first thing that the computer will do is convert this URL into an IP Address. The computer then sends the request to the webserver. But this server might not just be hosting a website (using HTTP), it may also host a mail server (using SMTP) or a file server (using FTP). 
+
+To navigate the request to the correct server, port numbers are used. Each application is assigned a particular port number - HTTP is assigned port number 80, SMTP is assigned port number 25, and FTP is assigned port number 20 and 21. Since these are standard port addresses, all computers will know about them. 
+
+On making a request to the web server, our computer adds a destination port number (DST) of 80 to the TCP header, since we are accessing a HTTP site. The computer will also choose a randomly generated source port number to receive a reply. The IP Address and the port number are sent along with the request packet. The web server will see the port number, will realize that the request is meant for the web server and passes it to that application. The server then reponds, and the IP Address and port number of the source system are sent along with the response packet. 
+
+On receiving the response, our computer will look at the port number and sends it to the relevant application, which in our case is the browser, and displays it on the particular tab as well.  
+
+Range of port numbers: 0 - 65535
+
+0 - 1023 are Well known port numbers
+
+1024 - 49151 are Registered port numbers
+
+49152 - 65535 are Dynamically assigned port numbers
+
+Some of the common well known port numbers are:
+
+|Application|Protocol|Port number|
+|:---:|:----:|:----:|
+|FTP Data| TCP| 20|
+|FTP Control| TCP| 21|
+|SSH|TCP|22|
+|Telnet|TCP|23|
+|SMTP|TCP|25|
+|DNS|TCP/UDP|53|
+|DHCP|UDP|67, 68|
+|TFTP|UDP|69|
+|HTTP|TCP|80|
+|POP3|TCP|110|
+|SNMP|UDP|161|
+|HTTPS|TCP|443|
+
+## Switching methods
+
